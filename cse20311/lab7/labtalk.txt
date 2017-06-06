@@ -1,0 +1,13 @@
+add function:
+int a = 1, b = 2, c;
+c = a + b;
+
+s = a.add(b);
+s.print();
+
+Rational Rational::add(Rational X) {
+   Rational z;
+   z.setNum(numer*x.getDenom())
+      +
+      
+   return z;

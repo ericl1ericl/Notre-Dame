@@ -1,0 +1,121 @@
+Eric Layne
+CSE 20311
+Lab 11
+
+From the user's perspective, the code operates very simply.  Running the 
+compilied code first brings up a blank window.  The user can then press 
+any number between 1-7, to display:
+	1. Sierpinski triangle
+	2. Shrinking squares
+	3. Spiral of squares
+	4. Circular lace
+	5. Snowflake
+	6. Tree
+	7. Fern
+Calling each fractal clears the screen, and the new fractal is then 
+displayed.  The user can then press 'q' to exit the program.
+
+The main structure of the code operates simply.  After opening a window 
+using gfx_open, the program enters a while loop that contains a switch 
+statement.  This switch statement manages the user's inputs (1-7 and 'q').  
+With the exception of 'q', each different case calls upon a function 
+that calculates and draws each fractal. 'q' returns a boolean value to the 
+while loop and renders it false, effectively ending the operation of the 
+code.
+
+The most important part of the code lies within the functions.  There are 
+eight different functions, with the first two working together to create 
+the Sierpinski triangle.
+
+1. Spierpinski triangle function (triangles) & drawtriangle:
+triangles takes the input of three vertices of a triangle.  It uses 
+drawtriangle to draw the triangle using gfx_line.  Draw triangle takes the 
+coorinates of the vertices and draws lines between them.  The recursion 
+works by drawing a new triangle with sides half the size of the original, 
+and placing a vertex in the similar vertex of the old triangle.  It does 
+this until the side length is less than 4.
+
+2. Shrinking squares (squares):
+squares uses the gfx_rectangle function.  It takes the input of x1, 
+y1 for the top left corner of the square, and s for the side 
+length. Because gfx_rectangle is measured from the top left corner, some 
+analysis must be performed to place the new squares in their proper location.  
+Because the side length of the new squares is half that of the original square, 
+if the original square is shifted up a quarter-side and left a quarter-side, 
+the four corners of this shifted square will represent the top-left corner of 
+each smaller square.  This is the math seen in the four recursive calls to 
+the squares function.  It does this until the side length is less than 4.
+
+3. Spiral of squares (spiralsquares):
+spiralsquares uses the gfx_rectangle function.  It takes the input of x,y 
+to denote the upper left corner of gfx_rectangle, the input s to control 
+the length of the sides, and the input i to carry the theta value.  Spiral 
+squares takes advantage of the logarithmic curve's parametric formula:
+x = r*cos(theta), and y = r*sin(theta), where r = a*exp(b*theta).  Only r 
+is adapted for use in the function, being r = (s+2)*exp(0.05*i), with i 
+carrying the angle value.  The values for a (s+2) and b (0.05) were chosen 
+to maintain a tight spiral that did not let squares overlap.  The pi/8 
+value for theta was chosen to display many squares per half turn.  The 
+side length increases by one every iteration.  If the side is greater than 
+100, the function stops, but by this point the squares are out of range of 
+the display.
+
+4. Circle fractal (circles):
+circles utilizes the gfx_circle function.  It takes the input of x,y to 
+denote the center of the circle, and r to denote its radius.  Because we 
+want six circles to be displayed on the previous circle, we know that the 
+centers will be at an angle of k*pi/3 radians, where k is a constant, and 
+thus theta is pi/3 and k is denoted by i in a for loop from 0 to 5.  The 
+radius of the new circle is a third of the old circle, denoted by r/3.  
+The function stops once the radius is less than 1.
+
+5. Snowflake fractal (snowflake):
+snowflake draws r number of arms of length l from a central spoke x,y.  It 
+takes the inputs x, y, l, and r, as described above.  To determine at what 
+angle each arm comes out of the central hub, theta=i*2pi/r, where i is a 
+constant from 0 to (r-1).  To draw each arm, the endpoint x2,y2 is 
+calculated by x2=x+l*cos(i*theta) and y2 = y+l*sin(i*theta), and gfx_line 
+is used to draw a line from x,y to x2,y2.  In order to get the recursive 
+property, a new hub is defined at the end of the arm, or x2,y2, and the 
+length of the new arms are defined as l/3.  r is passed as the same value 
+throughout the whole function to ensure that r arms are on every hub.  
+This is a minor correction I included in my commented code - in my 
+original code, I had snowflake pass 5 instead of r, so that it would 
+always have 5 arms even if originally it had many more.  In the commented 
+code, it passes r all the time.  The function stops if the length of an 
+arm is less than 2.
+
+6. Tree fractal (tree):
+tree draws a series of forking lines that get smaller in length.  The 
+input slope denotes the angle these branches are at, l denotes the length 
+of the new branch, x,y denotes the location where the two branches will 
+split from, and theta carries the angle the parent branch was at.  The 
+function works by separately drawing the left and right branch.  To do so, 
+the endpoints on the left and right side are calculated using theta, 
+slope, l, and the old x,y.  gfx_line is used to draw a line from these 
+endpoints to the branching location.  tree must be called twice to act 
+recursively, carrying the enpoints of the branch on the left side and its 
+angle in one call, and the information of the right branh in the other 
+call.  It stops once the length of a branch is less than two.  One thing 
+to note is that the function will not draw the initial vertical line - 
+this is drawn in the proper case of the switch structure in main.
+
+7. Fern fractal (fern):
+fern operates similarly to tree, but instead of just one fork at the top 
+of the parent branch, it has four forks positioned at each quarter along 
+the parent branch.  This is accomplished through a for loop that repeats  
+four times and moves the x,y branching point to each different quarter.  
+When defined recursively, each new branch is a third the length of the 
+parent branch, and the function stops once the length of the new branches 
+is less than six.
+
+The program fractals.cpp fulfills the requirements of the lab.  I 
+verified this by repeatedly checking the graphical outputs.  
+
+NOTE: one minor correction was made to the commented program, 
+fractals_commented.cpp.  This was so that if the number of arms in 
+snowflake was specified to be anything other than 5 in the main, each 
+iteration would have the specified number of arms.  In the original 
+fractals.cpp, each iteration beyond the first would have 5 arms no matter 
+what.  Though this fulfills the lab requirement, the minor alteration 
+in fractals_commented.cpp adds slightly more functionality.

@@ -1,0 +1,86 @@
+Eric Layne
+CSE20311
+Lab 10
+
+From the user perspective, the program is very simple.  A small boat is 
+seen in the "ocean" on the right side of the screen, and the left side of 
+the screen has a simple helm.  The boat moves forward at a constant speed, 
+and the left and right arrow keys are used to turn the boat left or right 
+simultaneously with rotation of the helm, as if it controlled the rudder.
+The further left or right the wheel is turned, the tighter the boat's turning 
+radius.  Returning the wheel to the neutral vertical position makes the boat 
+go straight.  Additionally, when the boat reaches the edge of the ocean, it 
+appears on the opposite side.  For ease of reference, one spoke of the 
+helm is colored red.
+
+The program is structured fairly simply.  Within the main, variables are created 
+and the window opened.  Two specific variables are shiptheta and 
+helmtheta.  The difference will be explained more in depth later, but two 
+variables are needed because, for example, a quarter turn of the helm does 
+not cause a quarter turn of the ship.  A while loop is utilized to animate 
+the function.
+
+Within the while loop, first drawings of waves are made.  These are fixed 
+drawings, so they appear in the same spot the whole time.  Next, the 
+functions to draw the boat and the wheel are called upon, which will be 
+explained in depth later.  The graphics are flushed to the screen, and 
+the next position of the boat is calculated.  After a brief pause, the 
+combination of if and switch statements are used to receive keyboard 
+inputs.  Because it is not desirable to detect a gfx_wait on every loop of 
+the animation, a gfx_event_waiting is used in the if statement to access 
+the switch statement.  The switch statement is used to determine the user 
+input.
+
+The next line is critical, as it gives the ship's movement the desired 
+behavior.  In the original spaceship.cpp, a key to turn the spaceship 
+would only turn it as long as it was depressed.  When released, the ship 
+would return to a straight path.  With this additional line, though, the 
+angle of the sailboat's turn constantly changes depending on the position 
+of the helm.  If the helm is vertical, the sailboat goes straight.  But a 
+turn of the helm will return a constant angle for the helm, and 
+usage of this constant angle within the equation will constantly 
+alter the value of shiptheta and provide a changing angle to the ship.  The 
+result is constant turning of varying radii, depending on the helm's position.
+
+The next portion of the loop is to detect if the sailboat collides with 
+the edges of the window, and moves the sailboat to the opposite edge.  One 
+change hear is that the left bound is not the left edge of the window.  
+This is because the ship's helm is contained between the left bound and 
+the left edge.  It would not look good if the sailboat went across the 
+helm.
+
+The final portion of the loop is to limit the turning of the helm, which 
+in turn limits the turning radius of the ship.  If statements are used to 
+limit this, detecting if the helm tries to rotate beyond a certain point 
+and returning it to a maximum/minimum value (positive or negative 3 
+radians from the initial vertical position).
+
+The function to draw the boat is very similar to the original function to 
+draw the spaceship.  The differences are the filling of the triagle and 
+the addition of a sail.  In order to fill the boat, I drew smaller 
+triangles within each other to create the appearance of it being filled.  
+Normally, I would use a for loop to achieve this, but for some reason the 
+usage of a for loop made the program stop working.  However, writing out 
+each triangle individually seemed to work fine, so that is why I did not 
+use a for loop.  The drawing of the sail was simple, using some of the 
+previous variables to draw a straight line across the middle of the boat.  
+The last two gfx_lines, in which the value one is added and subtracted, 
+were added for aesthetic purposes, as they slightly alter the appearance 
+of the sail as the boat turns.
+
+The function to draw the helm also works simply.  First, a background 
+square is made so that the helm appears on a black square instead of the 
+teal background.  Next, the eight spokes are drawn.  The first, vertical, 
+spoke is colored red so that it is easy for the user to reference.  
+Trigonometry is used to determine the location of each spoke's endpoint, 
+as their initial points are all the same (the center).  Again, I would 
+normally use a for loop to draw the seven additional spokes, but the usage 
+of the loop caused the program to be inoperable.  Manually drawing each 
+spoke, however, caused the program to operate properly.  Finally, a for 
+loop was used to draw the inner circle and outer ring of the helm.  I do 
+not know why this loop worked while the other loops I tried did not.
+
+I evaluated the program for correctness by testing it often, and it 
+produces correct results.  The only downside to the program is the constant 
+flickering, which I associate with changing the colors, and thus an 
+necessary evil to work through.

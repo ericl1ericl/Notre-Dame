@@ -1,0 +1,80 @@
+Eric Layne
+CSE20312
+Lab10 - Minimum Spanning Tree
+
+This program interprets a user-inputted adjacency matrix representing an 
+undirected graph.  It outputs the paths in this graph's minimum spanning 
+tree and the total weight of said minimum spanning tree.
+
+The user uses the program by first running make to compile the program.  
+Compilation gives the executable solution, with which the user can use to 
+run the program.  Solution works by first taking in the number of vertices 
+in the graph, or nodes.  The user then inputs an adjacency matrix, with 
+each entry representing the weight of the path from one node to another.  
+For example, a value of 2 at (2, 1) represents a weight of two from vertex 
+2 to vertex 1.  If a path does not exist, it is represented with a weight 
+of -1.  Logically, this adjacency matrix reflects over the top-left to 
+bottom-right diagonal.  If the user has premade input, such as the input 
+file provided in the lab documentation, they can test it by redirecting: 
+solution < input.  The output of the program is simple to 
+interpret.  It first gives the total weight of the minimum 
+spanning tree.  It then lists the paths that make up this tree in 
+lexicographical order.  Finally, if the user wishes to run timing and 
+memory tests, they can simply run make test.
+
+The program works internally by converting the adjacency matrix entered by 
+the user into an adjacency list, and then running Prim's algorithm on the 
+graph to output the minimum spanning tree and its data.  The program takes 
+advantage of a struct, called path, that contains a path's source vertex, 
+destination vertex, and the path's weight.  The program also contains two 
+helper funcitons, num2char and edgeSort.  num2char converts an integer to 
+its corresponding capital letter (i.e. 0=A, 1=B, 2=C, etc).  edgeSort 
+sorts two paths based on weight, putting the path with greater weight 
+before the path with less weight.  The program also parses input in the 
+main, and runs mst analysis using Prim's algorithm in a function.
+
+Main is used primarily to interpret the user's inputted adjacency matrix 
+as an adjacency list.  It does so in a while loop that loops for each 
+matrix entered.  The main first builds an adjacency matrix as a 
+two-dimensional matrix by using nested for loops.  Within the same nested 
+for loops, the adjacency list is also built.  This is created by using a 
+map, whose keys are the source vertices, and whose values are path structs 
+containing data on each path leaving the source node.  The helper function 
+num2char is used here, to conver int counters in the for loops to letters.  
+Finally, this graph map is passed to the Prim's algorithm function, and 
+the loop repeats until input is done.
+
+The prim function uses prim's algorithm to create a minimum spanning tree.  
+It follows the format laid out in the pseudo-code provided in lecture.  
+Two important data structures are initialized immediately: marked, a 
+graph with keys of chars and values of path structs that stores paths in 
+the minimum spanning tree; and the frontier, which is a vector of paths 
+that stores all the paths possible to take from a marked node to other 
+nodes.  The marked graph's keys are the destination nodes, and its value 
+is the path used to get to that destination.  In Prim's algorithm, a dummy 
+starter node is manually added to the frontier first.  In this case, we 
+start examination of the graph at the 'A' node.  Prim's algorithm then 
+runs while the frontier is not empty.  Essentially, the frontier is sorted 
+based upon path weight.  The lowest weighted path is removed from the 
+frontier, and added to the marked vector, as a path to the destination 
+key.  The frontier is then updated to include all the possible paths 
+branching from marked nodes to other nodes.  The frontier empties itself 
+because path values are always popped off the end of the frontier.  If its 
+associated key in marked is already filled, meaning that the held path has 
+a higher weight than the stored path, the held path is simply discarded.  
+By the end, the marked vector contains exactly one path leading to each 
+destination key.  The prim's algorithm function then goes through the 
+marked vector, extracting the weight associated with each path and adding 
+it to a total path weight sum, which is outputted.  Finally, the prim's 
+algorithm function displays the lexicographical order of all the paths in 
+the minimum spanning tree.  To do so, a vector of strings is used.  For 
+every path in the marked vector, a string is created in alphabetical order 
+regarding its source and destinaion.  This string is then added to a 
+vector of strings, which is sorted alphabetically after all the path 
+strings are added.  This new string vector is then iterated through, 
+printing out each path string.
+
+The program was verified primarily by running the program on the provided 
+input file and comparing it to the provided output file.  I also tested it 
+on graphs that I created, on custom inputs.  Finally, it was verified 
+through the usage of make test.

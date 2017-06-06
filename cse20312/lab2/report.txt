@@ -1,0 +1,77 @@
+Eric Layne
+CSE20312
+Lab2
+
+The user uses the blackjack program simply.  First, they must run make to 
+get the executable, BLACKJACK.  Running BLACKJACK allows them to play the 
+game.  The game displays the card values that both the dealer and player 
+draws, as well as their cumulative hand scores.  In this phase of the 
+game, the user is then prompted according to the game rules.  They can 
+hit or stand, entering h or s, respectively (case does not matter).  If 
+they enter a different value, the game displays an error.  In the event 
+that the dealer or the player wins, the score is displayed.  Additionally, 
+a play again message is displayed, prompting the user to enter y or n to 
+continue or quit, respectively.  Errors are displayed if there is an 
+invalid input.
+
+The game takes advantage of the CardDeck class created in part 1 of the 
+lab, which allowed the user to make a deck of any size and shuffle it.  
+Several critical adaptions were made, however.  First was the introduction 
+of rank and suits.  An array of 52 cards was made first.  A for loop was 
+then used to create the 13 ranks.  To make four suits within the array of 
+52, values were added in multiples of 13 four times.  Additionally, 
+according to blackjack rules, every ace (or 1) was set to 11 and every 
+face card (11, 12, 13) was set to 10.  Ultimately, one suit would be 11, 
+2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10.  A deck would contain this pattern 
+four times.
+
+Methods were also included to return deck size and to shuffle the deck.  
+The shuffle took advantage of Knuth's algorithm.  The deal method also 
+worked simply.  It simply extracts the value of the top card.  Afterwards, 
+it sets that value to zero, and reduces the deck size by one.  Though 
+technically that memory space containing the zero still exists, because 
+the deck is not reshuffled, the zero will remain beyond the scope of the 
+new deck size.
+
+The main blackjack program also works simply. First, variables are 
+initialized to hold hand values for the dealer and player, win counts for 
+the dealer and player, and other assorted variables for input.  
+Additionally, the first 52 card deck is made and shuffled.  A while loop 
+is used to play the game until the user quits.  On the first turn of a new 
+game, cards are automatically dealt to both the player and the dealer.  
+Other than the first turn, the program operates the same for every other 
+turn.  The scores are first displayed.  If a specific win condition has 
+been met already (checking for dealer win conditions first - the dealer 
+wins ties including 21, or if both go over 21, etc. - it has precedence), 
+then a function is called whether the dealer or player won.  If an 
+automatic win condition is not met, then the player is prompted to hit or 
+stand.  If the player hits, a new card is dealt.  If the dealer is not 
+over 17, it receives a card also.  The program then loops through to check 
+the automatic win conditions again.
+
+If the player stands, it is a bit trickier.  First, if the dealer is not 
+at 17, it will draw another card.  The player will not draw a new card, 
+due to standing.  There are a few unique conditions that exist as a result 
+of standing.  If the player stands, and the dealer draws and overshoots 
+21, then the player wins and the appropriate function is called.  If the 
+player stands but is less than the dealer, then he or she has effectively 
+forfeited their hand to the dealer.
+
+Finally in the while loop, the getSize member is called to see if the deck 
+still has at least 15 cards.  If not, the deck is reinitialized and 
+shuffled.
+
+The two functions dealwin and playwin are identical except for a win 
+message.  In this, it displays who won, the standings, and then asks the 
+user if they wish to keep playing.  Based on this input, the program 
+enters a true while loop.  If the user desires to quit, a variable is 
+passed by reference back to the main while loop.  If the user desires to 
+continue, the hand values are set to zero through passing by reference, as 
+well as the turn counter restarting so an initial deal can occur.  
+Finally, if invalid inputs are entered, it will re prompt the user.
+
+I verified the blackjack program through extensive multistage testing.  
+First, I ensured that the program shuffled and dealt properly.  Then, I 
+built a system where I could hit or stand.  I added in the logic next, or 
+the win conditions, which I perfected over extensive testing.  Finally, I 
+implemented a system for the user to quit.

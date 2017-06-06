@@ -1,0 +1,113 @@
+Eric Layne
+CSE20312
+Lab8
+
+The user uses the program by using backends with map_test and map_bench.  
+map_bench is used to determine a map backend's time to run insert and time 
+to run search.  map_bench can handle three inputs: BACKEND, NITEMS, and 
+PADLENGTH, which respectively specify the data structure used, the number 
+of items tested, and the amount to pad the key values by.  BACKEND can be 
+chosen from five structures: unsorted, sorted, binary search tree (bst), 
+red black tree (rbtree) and treap.  NITEMS and PADLENGTH are both 
+controlled through numeric user inputs.  All three of these inputs are 
+handled as flags behind a call to the map_bench executable in the command 
+line: -b (BACKEND), -n (NITEMS), and -p (PADLENGTH).  A fourth flag 
+exists, -h, which displays the usage of the function.  map_test works 
+similarly, except that it only has the -b (BACKEND) flag.  However, this 
+flag uses the same control entries as map_bench: unsorted, sorted, bst, 
+rbtree, or treap.  For treaps, map_test outputs the map balance ratio, the 
+minimum and maximum heights possible, and the pre-order traversal.  
+Otherwise, it outputs nothing.  Additionally, running make test allows 
+the user to run 5 trials on treap, and benchmark for every data structure 
+automatically for 30,000 items. 
+
+The program works internally by having a header file, map.h, containing 
+the functions for all the other files.  bst.cpp, rbtree.cpp, sorted.cpp, 
+and unsorted.cpp are all files that were pre-implemented, and treap.cpp 
+is the one that is student-implemented, the operation of which is 
+discussed below.  All these data structure programs are tested by two 
+given testing programs: map_test.cpp and map_bench.cpp.  These files are 
+all compiled together through the Makefile, which demonstrates the 
+inheritance, which is discussed below.  unsorted.cpp insert works by 
+traversing all the entries searching for a matching key.  If a key 
+is found to match the "new" key, its value is simply updated to the 
+"new" value, otherwise, the new key/value pair is tacked onto the 
+end.  Unsorted search works similarly, traversing through all the entries 
+for a matching key.  sorted.cpp insert is similar.  It traverses through 
+all the entries, and if the new key matches an old key, the old key's 
+value is updated.  However, if the old key is greater than the new key, 
+the new key/value pair is inserted at that location, otherwise, it is 
+inserted at the very end.  Sorted search takes advantage of binary search, 
+which repeatedly halves the entries until the desired entry is found.  
+bst.cpp insert works by first checking the current node if its key matches 
+the new key.  If so, the value is updated.  If not, and if the key of the 
+node is greater than the new key, it checks the left child similarly.  If 
+the key of the node is less than the new key, it checks the right child.  
+If the current location is null, meaning that no other entries had 
+matching keys, a new entry is created.  Binary Search Tree search works 
+similarly.  If the current node is null, null is returned.  If the current 
+node contains the search key, it is returned.  If the current node is 
+greater than the key, the left child is checked; otherwise, thr right 
+child is checked.  Finally, rbtree.cpp insert works by adding values into 
+an array of entries.  To search, it takes advantage of the built in 
+function find.
+
+The program was verified through the different tests, map_test and 
+map_bench.  It was also verified through make test.  One issue that I noticed 
+was that each trial never seemed to have a different arrangement of pre-order
+traversals.  I narrowed this down to the fact that the priority values generated 
+through srand did not change on each call to insert, and I could not determine why.  
+However, using the random function defined in the lab document would occasionally 
+give the desired behavior, but at the cost of failing the ratio test way more 
+often.  Therefore, I used the srand, because it fails less, but I commented out
+the lab document random function.
+
+The existing code files relate to each other in that map.h contains all 
+the descriptions, and libmap.a holds the libaray of functions to be used 
+by all the data structure files.  Object files for constants, unsorted, 
+sorted, bst, rbtree, and treap are created using the .cpp files.  These 
+object files are then used to create the library libmap.a.  This library 
+is then used with object files of map_test and map_bench to create 
+executables for these functions.  Within map.h, the Entry pair is created, 
+to hold key and value pairs.  The Node struct information is also held 
+here, containing the Entry pair, the node's priority, and its left and 
+right child nodes.  It also contains the class definitions.  Finally, 
+bst.cpp contains the dump_r function used by treap.cpp to dump its 
+contents.  It is called through extern void from treap.
+
+My treap implementation works by utilizing helper functions within each 
+function for insert, search, getMaxTreeHeight, getMinTreeHeight, and 
+preOrderTraversal.  Insert uses a function to generate a random value for 
+the priority, which is generated through either srand or the given random 
+function, as explained earlier.  Insert also uses a recursive function, 
+insert_t.  insert_t creates a new entry if none exists, updates value if 
+the key already exists, and inserts the node recursively using either a 
+RotateRight or RotateLeft function.  RotateRight and RotateLeft operate similarly,
+swapping parent and child nodes to achieve the desired rotation.  Search 
+uses an iterative search function, search_t.  Inside a continuous loop, 
+it either returns the node if a match is found, goes to left or right child 
+depending on the key's value, or returns NONE.  getMaxTreeHeight uses a 
+maxHeight helper function, which recursively adds until it reaches the end 
+of the left or right branch.  getMinTreeHeight also uses a recursive helper function
+minHeight, which goes until the ends of branches similarly and adds.  Finally,
+preOrderTraversal uses the helper function preOrder, which recursively 
+prints the current node, then the left child, then the right child.
+
+My benchmarking results (for 30000 numbers through make test):
+Unsorted
+	Insert: 32.206 s
+	Search: 30.873 s
+Sorted
+	Insert: 41.728 s
+	Search: 0.065196 s
+Binary Search Tree
+	Insert: 33.885 s
+	Search: 30.529 s
+Red Black Tree
+	Insert: 0.067991 s
+	Search: 0.04442 s
+Treap
+	Insert: 9.6084 s
+	Search: 6.49 s
+Results are as expected.  Treap is slower than Red Black Tree and faster than
+a Binary Search Tree.

@@ -1,0 +1,96 @@
+Eric Layne
+CSE 20311
+Final Project
+
+From the user perspective, the code works simply.  Upon compiling, the 
+user is shown a program modeling swarm behavior.  There are several tools 
+available to the user: the ability to toggle three critical functions that 
+control behavior, the ability to add and remove noise in motion, the 
+ability to add additional individual boids, the ability to add repulsive 
+blocks, and the abilities to pause and quit the program.  Making different 
+combinations of the behavioral functions has interesting results.
+
+From the programmer perspective, the program utilizes four primary 
+functions, and otherwise uses loops, lists, and truth statements to 
+control the individual boids in the swarm.  Each boid manages its own 
+behavior based on the other boids, so each calls upon the behavioral 
+functions to determine its behavior.
+
+Each boid carries critical information about itself: its location, a 
+vector of its direction, and wheter or not it is active or stationary.  In 
+order to hold this information two structs were created: one to hold the 
+vector components, and one to hold all the information about each boid, 
+which itself contains the vector struct.
+
+In the main, first a window is opened.  Many variables are initialized, 
+including a list of boid structures.  Then, a for loop is used to 
+initialize the list of boids.  Within the loop, each boid is assigned a 
+random position and initial direction, which is placed in the boid 
+structure.  Each boid is then added to a list of boids. By the time the 
+program arrives at the while loop, before animation, it has not only 
+initialized many critical variables but has randomly initialized the list 
+of boids.
+
+The while loop controls the animation and motion of the boids.  Extensive 
+if statements are used to manage its behavior.  First, the boid is drawn 
+based upon the information it is carrying about itself.  If it is active, 
+a circle is drawn with a line that shows its direction.  If it is 
+stationary, therefore a repulsive block, a square is drawn.  Next, a 
+series of if statements are used to manage the user's toggling of 
+behavioral functions.  The three functions (cohesion, separation, and 
+alignment) are critical for proper behavior.  The cohesion function causes 
+the boid to move towards the center of mass of the boids surrounding it.  The 
+separation function ensures the boids do not get too close together.  The 
+alignment function causes the boids to travel in the same direction.  
+The operation of these will be explaine more in depth later.  The while 
+loop also controls the boid's behavior at the edges, allowing it to 
+transverse into the sides of the screen but bouncing it off the top and 
+the bottom.  These statements also ensure that a boid placed in the 
+directions area is placed in the movement area.  Another series of if 
+statements makes sure the absolute value of the boid's velocity does not 
+exceed a fixed limit.  An additional if statement is used to toggle noise 
+generation.  The final if statement controls the movement of the boids.  
+The final vector for the boid was calculated earlier, so this value is 
+applied to the location to give the boid motion, if active.  If 
+stationary, the if statement ensures the boid does not move.
+
+After the while loop, a case structure is used to manage user input.  The 
+user can input nine different things: three toggles for behavior, a toggle 
+for noise, a toggle to pause, the ability to add a boid or a block, and 
+the ability to quit.  Most work simply, taking advantage of previous if 
+statements.  However, adding a block or boid is slightly more complex.  
+They are added to the list of boids, with information regarding its 
+location(cursor location), inital vectors (both zero), and whether or not 
+it is active or stationary.  Because they were added to the list, they 
+will be looked at on every iteration in the future.
+
+After the main, the two structs are defined.  After this, the functions 
+are defined.
+
+There are six functions in the code, four of which control crucial 
+behavior.  The first two draw the specific shapes (circle if active, 
+square if stationary).  The final four control behavior.
+
+The cohesion function works by first checking every boid to see if it is 
+within a certain radius of the primary boid.  If there are boids 
+surrounding the main boid, the function finds their center of mass, and 
+directs the main boid to this location.  This function only accounts for 
+active boids, as it would not be desirable for boids to be attracted to a 
+repulsive block.
+
+The alignment function works similarly to the cohesion function, but 
+instead of averaging the locations of the boids within a certain radius, 
+it finds their average velocity, and uses that as its own.  This way, all 
+the boids in the same flock tend to go in the same direction.
+
+The final two functions do the same thing: repel other boids.  To 
+do so, they check if boids are within a small radius of the main 
+boid.  If the main boid detects intruders, it tries to head in the 
+opposite direction.  However, the first function, separation, causes all boids 
+to repel each other always, whereas the blockrepulsion function is only used 
+when active boids are not desired to repel each other.  Because separation 
+causes boids to repel from blocks and other boids, block repulsion must be 
+used when boids are still required to repel from blocks.
+
+I verify that my program operates properly because I extensively tested 
+it.

@@ -1,0 +1,46 @@
+Eric Layne
+CSE20312
+lab7
+
+The user uses the program by first running the executable.  The program 
+then takes input from stdin.  The first input the user should enter is the 
+number of players in a given group.  The next lines they should enter are 
+the players.  The format is to enter the player name, then the rank, then 
+the suit, all on the same line.  If the user wishes to make a new group, 
+they repeat this process.  If the user is done, they enter a -1 in place 
+of the number of players.  The format is as follows:
+	# of players
+	PlayerName Rank Suit
+	...
+	# of players / -1
+	...
+
+
+The program works internally by using a vector of structs.  First, I made 
+a struct to hold data on each player.  Three variables are used, to refer 
+to the player's name, card rank, and card suit.
+
+In the main, a while loop is entered so that the user can repeatedly enter 
+new groups.  Its exit condition is if the input for the number of players 
+is -1.  Within the while loop, first a vector of player structs is 
+created.  A for loop is then entered, to sort through the user input 
+related to player data.  The player's name, card rank, and card suit are 
+stored in two strings and a char, respectively.  Then, the rank and suit 
+are converted to ints, by using if statements and a switch structure.  
+Finally, this information is used to create the player struct with the 
+make_player function.  This struct is then pushed onto the vector.  The 
+for loop ends once this process is repeated for every player.  Next, the 
+vector is sorted by taking advantage of sort and using the function 
+Greater, which will be described below.  Finally, the player names are 
+printed in order by iterating through the vector.
+
+The make_player function works simply, taking in the player's name, card 
+rank, and card suit and passing this data into a struct.
+
+The Greater function also works simply.  It takes in two players, and 
+first compares their card rank.  If the ranks are equal, then the players 
+are sorted by suit.  If the ranks are not equal, then the players are 
+sorted accordingly.
+
+I verified my code by testing it manually, and by using the make test 
+provided by the instructors.

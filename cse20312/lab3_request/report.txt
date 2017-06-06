@@ -1,0 +1,62 @@
+Eric Layne
+CSE20312
+Lab3
+
+The user operates this code very simply.  After compiling, and running the 
+executable, the user enters two numbers, after which the program outputs 
+their sum.  The user can also redirect input: solution < input, which 
+returns a list of the sums.
+
+Internally, the program is complicated.  Strings are used to hold the 
+initial input.  These strings are then pushed into linked lists that hold 
+each individual value.  Next, a function is called that adds these 
+two numbers together.
+
+This function operates by getting adding digits in the ones place, then 
+tens place, and so on.  It mimics adding by hand.  If the sum of this 
+addition is greater than ten, a carryover is generated.  The remainder of 
+the original sum when divided by ten will be the final digit.  To get the 
+next sum, the carryover is added to the next two digits.  If a carryover 
+is not needed, the remainder is simply set to the sum of the old digits 
+and the old carry, and the carry variable is reset.  The final value is 
+pushed into the sum linked list, and the heads are advanced to the next 
+node.  This process repeats until one (or both) values are depleted.
+
+If one value still remains, meaning it was longer than the other, its 
+remaining digits are similary extracted, added to a carry, modulused by 
+ten to generate a remainder, with the remainder pushed onto the sum.  A 
+carry is generated if necessary, and the head node is advanced to the next 
+node.
+
+After all this, whatever carry remains is added to the front of the sum 
+linked list.
+
+Two main helper functions are also used, print and pushfront.  Print 
+starts at the head node of a list, and advances through every next node 
+until it reaches the final, null, node.  It prints out every value 
+associated with the node.  Pushfront simply has a node take in the 
+inputted value and has its next node point to the head of the current 
+list, setting the list's head to the new node.
+
+This program was verified using make test.  It passes the output test, but 
+for some reason fails the memory test.  I could not determine the failure 
+from valgrind.  It would seem that when I call pushFront to insert the two 
+numbers to add into lists that these two lists are not destroyed properly.  
+This is odd because the sum list is destroyed properly, but not these two.  
+My destructor also seems correct.  This was also an issue on piazza which 
+was never resolved, in post @134.
+
+I added helper functions like print and pushfront.  Additionally, I 
+refined my add numbers function.  The framework of the add numbers 
+function had been right before, but needed fine tuning.  Similarly, the 
+name was refined a bit.  The largest changes came from the structure of 
+the class and node templating, which I was able to fix by looking at Prof. 
+Emrich's notes and code, which I did not utilize as efficiently before.  
+The most significant difference between this time and before was that I 
+was more comfortable with the syntax.
+
+Deconstructors are needed with dynamic memory allocation to prevent 
+memory errors.  Once the pointers to the used memory are deleted, there 
+is no way to access that space later to delete it.  Thus, it is 
+necessary to delete it while the pointers are still in place, hence the 
+deconstructors.

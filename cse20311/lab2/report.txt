@@ -1,0 +1,29 @@
+Part three of the assignment was to represent a function on an ASCII 
+graph.  I decided to use the wave function y = 2*(sin(2x)+cos(3x))+4.
+
+From the user's perspective, the program simply displays the graph. First, 
+it explains what the function is and the domain.  In this case, the domain 
+is from 0 to 25.  Then, the program prints out the graph. The number of 
+"#" symbols represents the y value.  In this case, each "#" represents 
+0.2.  Finally, the program states the maximum and minimum of the curve as 
+well as their respective positions on the x-axis.
+
+Internally, the program is broken up into several stages.
+
+First, the initial sentence is created, which tells the function and the 
+domain.  This requires the initial and final points of the domain to be 
+defined as variables.
+
+Second, there is a line that says "X" and "Y" to denote where these values 
+are.
+
+The third section is the main bulk of the program. A series of 
+variables are defined, as commented on within the program. Then a loop 
+starts, which contains several phases, and goes from the beginning to the end of the domain. First, it displays the current x value. Second, it calculates the y value at the current x value, and displays this. Third, it determines if the y value is either a minimum or a maximum using a series of if statements. Fourth, it graphs the amplitude of y using "#" signs.  It does so by calculating the number of symbols to be used (in this case, each "#" is 0.2 of y), then by using a for loop to print the proper number of "#" signs out. Fifth and final, the x value is incremented up.  This loop of five steps continues until the end of the domain is reached.
+
+The fourth and final section of the program prints out the maximum and minimum y values and their respective x positions.
+
+I verified the program was correct by using a graphing calculator and checking the shape of the curve as well as values.
+
+
+

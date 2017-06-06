@@ -1,0 +1,28 @@
+Eric Layne
+
+From the user's perspective, my program from part three calculates 
+Coulomb's Law, or the interactive force between two point charges.  It 
+takes three inputs from the user: two charges (in coulombs), and the 
+distance between these two charges (in meters).  However, if the user 
+inputs a value less than or equal to zero for the radius, the program 
+will deliver an error message and stop working.  This is to avoid divide by zero error and to avoid the impossibility of a negative distance.  The program then outputs the interactive force between the charges (in Newtons), and performs a quick analysis of the result to determine whether the force would be attractive or repulsive. The formula for Coulomb's Law is: 
+F=(1/(4*pi*epsilon0))*((q1*q2)/r^2) or F=k*((q1*q2)/r^2)
+
+From the programmer's perspective, the program first calculates the 
+constant k.  It declares and defines both pi and epsilon naught, then uses 
+these variables to calculate k.  I suppose that I could have just defined 
+the constant k as a single value, but I personally like to see the full 
+breakdown of the law.  After defining k, the program then declares the 
+variables for charge one, charge two, and the radius.  It uses float 
+values, just in case the user decides to make these very small decimals. 
+The program then asks the user for these values.  In the case of the 
+charges, the values can be either positive or negative.  However, the 
+radius has to be positive - it cannot be zero or negative.  Thus, an "if" statement is used to evaluate the user's input of the radius.  If the value is not positive, the program ends.  After taking in all these inputs, the program calculates the force, in Newtons, between the two charges and 
+communicates this to the user.  It also uses "if" statements to analyze 
+this result and deliver more information to the user.  If the force is 
+positive, the charges repel each other.  If it is negative, the charges 
+attract.
+
+I tested the program for correctness by double-checking the results with calculations done by hand.  Every time I tested it, it gave the correct result.
+
+

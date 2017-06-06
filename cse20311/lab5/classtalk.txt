@@ -1,0 +1,23 @@
+vector<string> sayings;
+
+compile g++ -std
+
+fstream is the library that allows us to deal with i/o to the device
+	ifstream: input, utilizes methods in ifstream and fstream
+	ofstream: output
+
+open: open file
+eof: checks end of file
+
+advantages of input redirection: straightforward, does need alteration of
+	code
+disadvantages of input redirection: cannot prompt user, very restricted
+
+file input/output has as many destinations for input as output
+
+ifs.open("file.txt")
+ifstream ifs("file.txt");
+
+use string object on *it because it points to a string
+
+getline(<stream>, <string>);

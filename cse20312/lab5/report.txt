@@ -1,0 +1,21 @@
+Eric Layne
+CSE20312
+Lab5
+
+I represented my trees in an array in the same format described by 
+the lab document.  I used standard input to first extract the 
+length of the array, then used standard input again to insert the 
+following values into the array itself.  I then call upon two 
+functions to check for the validity of the left and right 
+subtrees.  These functions operate recursively to traverse the 
+whole tree.
+
+I checked for bst property by essentially verifying two things: 
+that the left subtree was less than or equal to the parent, and 
+the the right subtree is greater than the parent node.  Within the 
+function, if the next subtree not only fulfills this property but 
+also (a) is not empty and (b) exists as a spot in the tree, then 
+the function recursively moves onto that subtree.  If the next 
+subtree fails to be valid, a failure is thrown.  If the next 
+subtree represents the end of the binary tree, then no failures 
+are thrown.

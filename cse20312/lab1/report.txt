@@ -1,0 +1,102 @@
+Eric Layne
+CSE20312
+Lab 1: Connect 4
+
+The usage of the program is simple.  First, the user must use make to 
+execute the makefile.  Doing so will create the executable "ConnectFour", 
+which will launch the game.  Once in the game, the user can observe the 
+board, whose turn it is, and instructions.  The instructions are 
+straightforward: play the respective disk in a column of choice by 
+entering 1 through 7, or enter -1 to quit.  Choosing a column will play 
+the disk accordingly, and quitting leaves the game with a message.  If an 
+invalid input is entered, an error is displayed.  Additionally, if a 
+player tries to add a disc to a full column, an error is displayed, and 
+the player has a chance to pick a legal move.  The game also displays a 
+message once a player connects four and wins the game.
+
+Internally, the program uses two user created classes.  The first, C4Col, 
+creates a class for the discs within one column.  The second, C4Board, 
+creates a class for the board as an array containing C4Col's, or an array 
+containing columns.  The C4Main is used to implement these two classes 
+together, and a makefile is used to create an executable for running the 
+program.
+
+C4Col works simply.  It has three private data members: one for storing 
+the number of discs in the column, one for storing the maximum number of 
+discs per column, and a character array that holds what disk (or a space) 
+is in a specific spot of the column.  It also has four functions: isFull 
+determines if the column is full by checking the number of discs to the 
+maximum number of discs, getDisc returns what character is in a specific 
+spot, getMaxDiscs returns the variable for maximum discs per column, and 
+addDisc adds a disc character to the lowest open slot of the column.  This 
+is initially the base, at zero, but works its way up to the maximum.
+
+C4Board is more complex.  It has two private data members: one to store 
+the number of columns and an array of C4Col columns.  It also has three 
+functions: display, which displays the board; play, which allows the user 
+to interact with the program; and wincheck, which analyzes the board and 
+determines if a player has connected four tokens.
+
+Display is implemented simply.  After outputting text to label each 
+column, nested for loops are used to create the grid structure.  Because 
+board is a C4Col, the function getDisc can be used to extract what 
+character is in a specific position on the baord.  The nested for loops 
+are used to analyze each specific position, and display it.  Additional 
+characters, like '|' and '=' are used to make the board more aesthetically 
+pleasing.
+
+Play is slightly more complex.  Two variables are initialized right away, 
+a variable to keep a while loop running, and a variable to keep track of 
+the turn number.  While the while loop is running, the players can 
+continue to play and interact with the board.  Within the loop, first, the 
+display function is called.  This is so the players know the state of the 
+board before they make their play.  The program then uses the modulus to 
+determine which player's turn it is.  After displaying a player-specific 
+instruction, cin is used to take in the player input.  If statements are 
+then used to determine the appropriate action, based upon the input.  If 
+the input is -1, the program simply quits.  If the input is invalid, an 
+error is displayed.  However, if the input is a valid column, the program 
+first ensures the column is not full.  If it is, an error is displayed.  
+If not, if statements and modulus is used to determine whose turn it is 
+and thus what piece should be played.  Only when a piece is played is the 
+turn variable advanced.  Finally, the function wincheck is run to analyze 
+the board and determine if there is a winner.  The function will be 
+explained with more detail next, but if a winner exists, a message is 
+displayed.
+
+Wincheck looks complex, but is in actuality very simple.  Variables are 
+established based upon the rows and columns.  Additionally, variables are 
+defined to denote if a player has won.  First, nested for loops are used 
+to scan through every position on the board.  Next, the function 
+determines what disc it is on, a 'X' or 'O'.  After this, the function 
+checks to see if there are groups of four in a row, in a column, in a 
+positive diagonal, and in a negative diagonal, respectively.  It does so 
+by recognizing the positions in which such patterns emerge.  For example, 
+horizontal lines of four, to the right of an initial position, only emerge
+when the initial position is at least four positions left of the right 
+edge.  If, for example, it is in the second-to-last column, a line of four 
+cannot be built to its right.  Thus, if an initial disc is found to the 
+left of the limit, the function immediately checks if the next three 
+adjacent discs are also the same shape.  If so, the variable denoting a 
+player win is changed to true.  Likewise, in columns, the initial disc has 
+to be at least four below the top.  If such a disc is found, the function 
+checks the three immediate discs above it to see if they match.  The 
+positive diagonal starts in the bottom-left quadrant, and the negative 
+diagonal starts in the bottom-right quadrant.  The positive diagonal, 
+after finding an initial disc in the quadrant, checks for adjacent discs 
+up and right of the initial.  The negative diagonal checks for adjacent 
+discs up and left of the initial.
+
+The AI implemented is very rudimentary.  When it is player 2's turn, the 
+computer uses a random number generator to pick a number between 1 and 7.  
+This number is passed as player 2's play.  The only additional code 
+involves an if statement to determine the player, and the rand function.
+
+The program was verified through rigorous testing, especially of invalid 
+inputs and of different victory positions.
+
+Deconstructors are needed with dynamic memory management so that the 
+pointer can deallocate the memory once it is no longer needed.  If this 
+did not occur, a memory leak might happen.  After the program borrows 
+whatever memory it may need to run, it returns this memory to its original 
+state so that nothing negative happens.

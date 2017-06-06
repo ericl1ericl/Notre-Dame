@@ -1,0 +1,62 @@
+Eric Layne
+CSE20311
+lab7 part2
+
+From the user perspective, the program first prompts the user to enter a 
+data file name.  If no such file exists, it displays an error.  If the 
+file does exist, the user is then prompted with a list of options to 
+choose from.  The first option displays a list of all 50 states to the 
+user.  The second through sixth options all prompt the user to enter a 
+state name, then display the state's abbreviation, capital, population, 
+year of Union admittance, and number of state representatives, 
+respectively.  The seventh option displays all the data contained within 
+the file in a formatted display.  Finally, the last option quits the 
+program.  An error is displayed if the user enters anything other than 
+these choices.
+
+From the programmer perspective, there are three crucial programs: 
+state.h, state.cpp, and statemain.cpp.  state.h and state.cpp are used in 
+conjunction to create a State class which is used in statemain.cpp.  
+state.h is the class interface which contains the prototpes for the state 
+class.  state.cpp is the implementation for the class that is compatible with
+the interface.  Finally, statemain.cpp is the bulk of the program that
+utilizes the class.
+
+statemain.cpp first starts by reading the data from the .csv file into a 
+vector.  If no file exists, a simple if statement is used to display an 
+error.  However, if a file does exist, a series of getlines is used in 
+conjunction with punctuation to parse and separate the data from the file 
+into different variables, which represents the corresponding data within 
+the line.  These variables are then held with the State class, which is
+then inserted into the whole states vector which stores all the data.
+Essentially, a line from the file is looked at, the data is parsed and 
+separated into different variables, these variables are held with the 
+State class, and the State class is inserted into the states vector.  This 
+is done for each line of the file until it is all read into the vector.
+
+statemain.cpp continues with a while loop, which contains the user prompts 
+and the corresponding switch statements. The while loop runs true unless 
+the quit prompt is called upon, upon which it is false and the program 
+ends.  All the prompts are displayed to the user, with the prompt number 
+corresponding to a particular case. Each case contains a unique function 
+that carries out the particular task desired by the user.  There also 
+exists a default case which displays an error in case the user enters an 
+invalid choice.
+
+There are seven functions within the program.  The first function displays 
+all fifty states to the user by using a for loop and analyzing the vector 
+State.  The second through sixth functions all operate similarly to each 
+other, and display an aspect of a user-requested state.  It uses a for 
+loop to run through each class within the vector.  An if statement is then 
+used to compare the user-entered state (a string) to the state name held 
+on the class within the vector.  If the names match, a get method is 
+called upon to get the desired data, be it population or state 
+representatives. Finally within the function an error message is held 
+within an if statement, triggered to run if the user entered an invalid 
+state name.  The third and final function also works simply.  It uses a 
+for loop to go from the beginning to end of the vector, using get methods 
+to pull all the data out from the class and displaying them neatly.
+
+I evaluated my program for correctness by testing each prompt many times, 
+and double checking the output with the data file.  My program produces 
+correct results.

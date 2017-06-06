@@ -1,0 +1,59 @@
+Eric Layne
+CSE20311
+Lab9
+
+From the user perspective, the program first asks the user for a series of 
+words. Once the user enters their words, they can enter a period to 
+indicate the end.  Otherwise, there is a 20 word limit.  Then, the program 
+outputs a solved crossword puzzle.  It also outputs a blank crossword 
+puzzle.  Finally, the program outputs a list of clues corresponding to 
+each word.  Every clue contains the location of the word, its orientation, 
+and a jumble of the word itself.
+
+From the programmer perspective, it first uses a while loop and strings to 
+get the list of user entered words.  Using if statements, it determines 
+whether the user has entered 20 words, a period, or an invalid word.  It 
+responds by advancing for the first two, and displaying an error for the 
+latter.
+
+The program then uses this list of words to create a second, sorted list 
+of words.  This second list is sorted from longest to shortest word.
+
+Next, the program initializes the board to be all periods.
+
+Then, the program puts the first word on the board.  Several attributes of 
+this word are saved to a struct, such as the word itself, the location, 
+and the orientation.  These are all used later with the clues.  Because 
+there are multiple words, a vector of these structs is used.
+
+The program then advances through the rest of the words in a for loop.  It 
+breaks each word up into separate characters, then searches through the 
+board for matching characters.  Everytime a match is made, information is 
+stored in a second vector of structures related to individual points.  
+Analysis is also performed on open spaces vertically and horizontally, 
+thus determining the optimal position for the word at each point.  This is 
+all stored in the vector of structs.  This analysis is seen in the series 
+of while loops after a match is found.
+
+The program then searches through all the matches to find the best 
+possible location.  It does so by finding the location with the most free 
+space, extracting all the characteristics of that space like orientation, 
+location, and the position of the letter within the word.  Using this 
+information, it places the word in this optimal spot.
+
+Once all the words are placed, the program then displays the board using 
+for loops.
+
+After this, the program analyzes the board to produce the blank board.  If 
+it detects anything other than a letter, it displays a pound sign.  
+Otherwise, it displays a space.
+
+Finally, the program creates clues using the information stored in the 
+word structure.  Such information includes location, orientation, and the 
+word itself, which it shuffles using c++ algorithms.
+
+This program is not totally correct.  Unfortunately, in the long amount of 
+time I spent on this project, I could not figure out a way to separate words by
+a blank space.  Thus, boards with lots of words tend to be incredibly 
+jumbled.  Sometimes, neat and correct boards occur, especially with few 
+words, but the incorrect nature remains.

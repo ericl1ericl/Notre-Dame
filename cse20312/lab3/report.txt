@@ -1,0 +1,34 @@
+Eric Layne
+CSE20312
+Lab3
+
+Internally, the program is complicated.  Strings are used to hold the 
+initial input.  These strings are then pushed into linked lists that hold 
+each individual value.  Next, a function is called that should add these 
+two numbers together.
+
+This function operates by getting adding digits in the ones place, then 
+tens place, and so on.  It mimics adding by hand.  If the sum of this 
+addition is greater than ten, a carryover is generated.  The remainder of 
+the original sum when divided by ten will be the final digit.  To get the 
+next sum, the carryover is added to the next two digits.
+
+For the linked list, each remainder is pushed into the final list number.  
+At the very end, the last carryover value is tacked on top.
+
+To print, a while loop checks the final number until it ends.  It displays 
+each value it checks.
+
+I could not determine the issues with my code.  The first issue is that it 
+cannot handle unequal list lengths.  This is probably a problem within the 
+addNumberLists function.  If one number list ends before the other, it 
+probably causes problems.  My code also displays incorrect sums.  Either 
+this is an issue with the display function at the end, or an error in the 
+addition logic.  It is probably more likely to be an issue in addition 
+logic, if not an issue with incorrect pointers.
+
+Deconstructors are needed with dynamic memory allocation to prevent 
+memory errors.  Once the pointers to the used memory are deleted, there 
+is no way to access that space later to delete it.  Thus, it is 
+necessary to delete it while the pointers are still in place, hence the 
+deconstructors.

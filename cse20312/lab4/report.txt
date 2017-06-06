@@ -1,0 +1,81 @@
+Eric Layne
+CSE20312
+Lab 4: Sudoku
+
+The user uses the program by first calling the Makefile with make.  After 
+the makefile generates an executable, sudoku, the user can run the file by 
+running the executable.  The user is then prompted to enter the name of 
+the input file.  If no file exists, an error is displayed.  If the file is 
+valid, the initial board is displayed, and the solved board is displayed 
+after.  The user can run make clean to clean the folder.
+
+My program utilizes a class to solve the board.  It has functions to set 
+the display value, get the display value of a position, display the board, 
+and set the display value after all other values are eliminated.  It also 
+has functions to scan rows, columns, and 3x3 blocks.  Additionally, it has 
+a function to sum up the board (used to check to see if the board is 
+filled), and two functions to run singleton method on rows and columns.  
+The board is initialized in a 3D vector: the first dimension has 9 
+elements for the rows, the second dimension has 9 elements for columns, 
+and the third dimension has 10 elements: the 0th is the display element, 
+and the other nine are either 0 or 1 to represent its viability or 
+elimination as an option.
+
+The constructor initializes all elements of the 3D vector to 0, including 
+all the numerical options.
+
+setval sets the display value of the board.  Additionally, it iterates 
+through all the other numerical options, turning off the ones that are not 
+the display value.
+
+getval simply returns the displayed value of a position.
+
+display simply displays the sudoku board with formatting.  It has nested 
+for loops to accomplish this.
+
+finalval sets the display value if there is only one option left.  It 
+checks through the option vector, and if there is only one zero left, it 
+records the number associated with that zero and sets the display value as 
+that number.
+
+scanrow and scancol work similarly.  For each element in a row/column, it 
+gets the displayed value of that location.  If this is not zero, it goes 
+to all the other zeroes in that row/column and eliminates that value in 
+the option dimension.
+
+scanblock first determines what 3x3 grid an element is in.  It then 
+stores the value of the element and then moves 
+to the top left of that grid.  It then uses nested for loops 
+to check through every element of the 3x3 grid.  If an element is zero, or 
+not finalized, it turns off the option of the original element's value.
+
+sumboard simply uses nested for loops to sum the display values of the 
+board.
+
+Finally, singlerow and singlecol operate similarly.  It loops through each 
+number option from one to nine.  It then checks every element of the 
+row/column with regards to that number.  If that number only occurs once, 
+then it is set to be displayed.
+
+The main function first prompts the user for a filename.  If no file 
+exists, an error is displayed.  Otherwise, the file is istreamed.  A while 
+loop is then used to stream input values into the sudoku board using the 
+setval function.  The initial board is then displayed.  Finally, a while 
+loop is implemented, that runs until sumboard is 405 (the sum of a solved 
+board) or until 50 iterations pass.  Two nested for loops iterate through 
+each row and column.  Finally, all the scanning functions and singleton 
+functions are called, ending with the finalval function.  This board is 
+then displayed.
+
+I verified my program by comparing the output to online solvers.  While 
+developing my program, I also printed to observe the possibilites for each 
+element.
+
+The scanning functions definitely worked well and as intended.  I ran to 
+issues implementing the scanblock by trying to use moduli to move to the 
+top left, but ended up hardcoding the locations to move.  The singletons 
+were difficult to implement.  At first, the scanning could solve the easy 
+puzzle, but implementation of singleton messed up the solution.  
+Eventually, by adding elimination functions to the inside of the singleton 
+functions, it must have cleared up any confusion.  I am especially happy 
+with the sumboard function as a condition to see if the board is solved.

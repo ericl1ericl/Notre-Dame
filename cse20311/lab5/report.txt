@@ -1,0 +1,66 @@
+Eric Layne
+Lab 5 Report
+
+From the user perspective, mysayings.cpp works rather simply.  After 
+compiling and running the program, the user is prompted to enter the name 
+of the startup file they would like to use.  If they enter the name of a 
+file that does not exist, the program displays an error and quits.  
+However, if they enter the name of an existing file, the user is prompted 
+with five new choices.  Choice one simply allows the user to display all 
+the sayings in the file.  Choice two allows the user to add a new saying 
+to the database (it should be noted that this does not permanently add the 
+phrase to the database, as the user needs to save in order for it to be 
+added).  Choice three prompts the user for a search term, and the program 
+finds every instance of the specific term, be it within a word or a word 
+itself.  Choice four allows the user to save the sayings to a new text 
+file.  If they had previously modified the sayings using option two, this 
+gives the user an opportunity to save the old terms with the modification.  
+Finally, choice five allows the user to quit the program.  Entering an 
+option other than the five choices displays an error, and reprompts the 
+user to make a choice.
+
+Internally, the program utilizes containers and four functions.  In main, 
+the user-entered file name is stored as a string, and this file name 
+string is read by fstream to pull the file data into " myfile".  myfile is 
+then checked with an if statement to verify its existence; if it does not 
+exist, an error is displayed.  Next, the data held in myfile is fed into a 
+string vector "sayings" line by line.  This is done using a string called 
+"line" that holds each individual line of myfile one at a time, which is 
+then added to the end of sayings.  Next, the program has a list of couts 
+that display the different options available to the user.  These are 
+managed using a switch statement, which itself is held within a while 
+loop so that it can run until prompted by the user to quit.
+
+Case 1 accesses a function to display the text held in sayings.  Case 2 prompts 
+the user for a new quote, then accesses a function that modifies the string 
+vector sayings by adding the quote to the end.  Case 3 prompts the user for a
+search term, then uses a function that finds the instances the term is 
+used in the string vector. Case 4 prompts the user for a new file name, then
+uses a function to save the string vector sayings to this .txt file.  Finally, 
+case 5 changes the value of a variable, which causes the while loop 
+containing the prompts to quit running and ends the program.  A default 
+case is also included, so that if the user enters a value that is not one 
+of the specified options, the program displays an error.
+
+There are four functions: displaytext, newtext, findword, and newfile, 
+which correspond to cases 1, 2, 3, and 4, respectively.  Displaytext 
+operates by looking at the string vector sayings and using a for loop from 
+the beginning to the end of sayings.  Within this loop, all the sayings 
+are displayed by using cout and a pointer to sayings.  Newtext works 
+simply.  A getline function is used in the main switch statement (because 
+cin only reads the first term, and the user may desire to enter a 
+multi-word phrase), and this getline function passes a string to the 
+newtext function.  This string is added to the end of the string vector 
+sayings by using the push_back function.  Findword works by similarly 
+using getline to send findword a string of the search term.  It then goes 
+from the beginning to the end of sayings by using a for loop.  In this 
+loop, a find function is used to search for the term.  If found, the line 
+the search term is found in is cout-ed.  Finally, newfile works by pulling 
+in a string of a new file name.  ofstream is used in conjunction with this 
+new file name to write the string vector into the new text file line by 
+line by utilizing a for loop.  For user friendliness, the function then 
+displays that it saved the new file.
+
+I verified the output of the program is correct by creating my own 
+startup.txt files (startup.txt and startup2.txt), and by rigorously 
+testing each prompt until I was satisfied it worked.

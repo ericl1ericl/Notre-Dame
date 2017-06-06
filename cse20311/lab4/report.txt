@@ -1,0 +1,42 @@
+Eric Layne
+Lab 4 Report
+
+From the user perspective, ndfootball.cpp works very simply.  It first gives users
+a list of options, and prompts them to make a choice.  If they input a value not
+associated with the list, the program displays an error and re-prompts the user.  
+If the user does choose an option from the given list, it executes as desired.
+For example, choice one asks the user for a year and displays that year's record. 
+Choices two and three display years with winning/losing seasons, respectively.
+Choices four through six, corresponding to a different characteristic, prompt the 
+user to enter a number.  If the number fits within the parameters of the data,
+the program displays what is desired.  If the number is outside the parameters,
+the program displays an error.  Finally, choice zero is used to exit the program.
+
+Internally, the program is very simple as well.  First, the data used for the wins
+and losses was imported from the course website as "nd_data.h".  I did this so
+that I did not have to manually type all the data.  There are seven different
+functions, each corresponding to the seven different choices.  In the main body
+of the code, these seven choices are displayed to the user.  Depending on what
+the user selects, a series of if/elseif loops are used to call upon the 
+required function (or to exit the program).  There also an else loop that 
+throws out an error in case the user enters a value outside the parameters of the
+choices.  As far as the functions go, there are essentially three variations.  The
+first corresponds to choice one, and displays the record for a given year.  This
+was simple, as it calls upon the win/loss arrays and displays the proper year.
+The proper year in this case, and in all the other cases, is determined by
+subtracting 1900.  That is, 1962 would be looked at as the element labelled 62 
+in the arrays.  Choices two and three are similar to each other, as they display
+winning and losing seasons.  These functions determine the number of games in a
+season by adding the wins and losses, and if the wins, for example, exceed half
+the number of games in a given season, then it is a winning season and displayed.
+Finally, choices four through seven are all very similar.  It analyzes each
+element of an array, determining if the value in the array falls within the
+desired parameter.  That is, if the element has less than, equal to, or more than
+the desired wins/losses given by the user.  All seven functions have the ability
+to output error messages whenever the user inputs fail to fall in the necessary
+parameters.
+
+In order to verify the output of the code worked, I tested it rigorously and
+compared it to the supplied data.
+
+

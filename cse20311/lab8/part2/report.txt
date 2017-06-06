@@ -1,0 +1,108 @@
+Eric Layne
+Lab8
+Report: Conway's Game of Life
+
+From the user perspective, using this program is very simple.  First, the 
+user compiles the program using make, receiving the executable playlife.  
+The user is then faced with two decisions: to run the program in 
+interactive or batch mode.  In interactive mode, the user simply runs the 
+executable playlife.  Then, they are faced with a blank board and a prompt 
+to enter a command.  The user has 5 commands: 'a' and a computer 
+coordinate, 'r' and a computer coordinate, 'n', 'q', or 'p'.  That means 
+they can add a live cell, remove a live cell, advance to the next board 
+generation, quit the program, or display generations continously, 
+respectively.  Any invalid commands, or the entering of coordinates that 
+do not exist, will result in an error message.  In batch mode, the user 
+enters a text file name after the executable playlife.  From here, the 
+board continuously plays the game, displaying subsequent generations until 
+the user quits using ctrl-c.  If the user accidentally enters too many 
+files after the executable, the program displays an error.
+
+From the programmer perspective, the program relies on a Lifeboard class.
+The .h interface contains four methods: display, remC, addC, and isState.  
+These are defined in the .cpp implementation, but display is used to 
+display the current board state, remC removes cells, addC adds living 
+cells, and isState checks whether the current cell would be dead or alive 
+in the next generation.  A private method that contains the full 42x42 
+char board is also included.
+
+The .cpp implementation contains the code for all the methods.  For the 
+first Lifeboard class, the board, with borders is automatically created 
+when called.  This is done using a series of for loops.  For the display 
+method, a series of for loops is also used to cout each character within 
+the board. The remC method is an int so that it can also output numbers to 
+prompt error messages in main.  Within remC, it takes in the user input of 
+x and y, converts the input so that it properly affects the output, and 
+checks to see if it is within the boundary.  If the input is, the (x,y) 
+position desired by the user is replaced with a blank space.  If not, the 
+remC method returns a 0, signifiying that main should display an error.  
+The addC method works identically to remC, except that it converts the 
+user input to a living 'X' instead of a dead ' '.  Finally, the isState 
+method returns an int declaring (x,y) should be dead or alive in the next 
+generation.  It first converts the user inputs x and y to the proper board 
+output.  It then uses for loops to check all the spaces in a three by 
+three grid around the main (x,y), accounting for the border if applicable.  
+If this check encounters a living 'X' cell, one is added to a variable 
+holding the number of living cells around (x,y).  Since these loops also 
+check (x,y), if (x,y) is revealed to have been living and thus added to 
+the tally, one is subtracted.  This tally is then used in a series of if 
+statements that check parameters to determine whether (x,y) should live or 
+die.  If (x,y) should live, a 1 is returned.  If it should die, a 0 is 
+returned.
+
+Finally, life.cpp is the main driver.  It utilizes a function and main.  
+Within main, first two Lifeboard classes are declared, to represent the 
+current and future boards.  Variables are all declared, to hold the values 
+of x and y, as well as variables to manage switch statements and error 
+messages.  In the bulk of main, if statements are used to switch between 
+interactive and batch modes.  The program knows whether to enter 
+interactive or batch mode by checking argc.  If argc = 1, only the 
+executable was entered, which prompts interactive mode.  If argc = 2, then 
+the user entered a file name after the executable, prompting batch mode.  
+If argc != 1 or 2, then an error is displayed.
+
+In interactive mode, a while statement that is true is used, so that it 
+continuously runs.  The user is prompted to enter a command, which 
+corresponds to a case within a switch statement.  If an invalid command is 
+entered, an error is displayed as a result of the default case.  Cases 'a' 
+and 'r' operate similarly, prompting the user to enter coordinates, then 
+calling upon addC or remC to act upon these coordinates.  Since addC and 
+remC return 0's if the entered coordinates are not within the boundary, 
+this 0 is utilized in an if statement to display an error if encountered.  
+Cases 'n' and 'p' both utilize the fadvance function, which will be 
+discussed later.  The difference between 'n' and 'p' is that n calls upon 
+fadvance only once, thus advancing the board one generation. 'p' uses an 
+infinite while loop, thus calling upon fadvance infinitely.  Finally, 'q' 
+is used to quit the program by using return 0.
+
+In batch mode, the program first uses argv to verify the existence of the 
+user entered file.  If it does not exist, an error is displayed.  Then, a 
+series of strings and a char are established, to hold the values read in 
+from the file.  These values are all read within a while loop that does 
+not end until the EOF.  This while loop is the bulk of batch mode.  First, 
+the value prior to the first ' ' is extracted, which should be an 'a'.
+Since this is not desired for the board, the next value is extracted, 
+which should be a number value. This is known to be the x value, which is 
+extracted and later applied to an integer.  The same is done for the y 
+value which comes next.  These new x and y ints are then used with the 
+addC method, adding the position to the board.  Next, the program checks 
+to see if the next value is a 'p'.  If not, it must be an 'a', and the 
+process of adding a coordinate to the board happens again.  If it is a 
+'p', the program enters an infinite while loop that utilizes fadvance 
+similarly to the 'p' command in interactive mode.
+
+Finally, fadvance is the core of playing the game, since it advances the 
+baord.  fadvance utilizes two Lifeboards: one to represent the current 
+board, and one to represent the next generation board.  fadvance uses two 
+for loops and the isState method within if statements, to check all the 
+(x,y) positions within the border.  The product of isState - whether (x,y)
+should live or die - is applied to the next generation board by using 
+addC and remC.  Thus, by the end of these for loops and isState checks, 
+one board contains the original board, and the next board will contain the 
+state of the board in the next generation.  fadvance then sets the current 
+board equal to the future board, so that if fadvance is applied again, it 
+will generate a new future.
+
+I evaluated my program for correctness by running it many times, testing 
+every condition that should work properly and should display errors.  It 
+produces correct results.

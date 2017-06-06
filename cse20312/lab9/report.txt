@@ -1,0 +1,73 @@
+Eric Layne
+CSE20312
+Lab9
+
+The user uses the program by first compiling it with the Makefile.  The 
+user can do so by running "make".  Afterwards, the user is left with the 
+executable "solution".  It is easiest to use solution by redirecting input 
+into it, i.e. solution < input.  Otherwise, the user can manually enter 
+graph data.  First, they enter the number of paths in their graph.  Then, 
+the user enters the source and destination of each path in a char.  Then, 
+the user enters the number of combinations of source and destination 
+that they would like to test.  Finally, they enter the source/destination 
+pairs to be tested.  When input is redirected, output automatically stops.  
+Otherwise, the user must manually signal the end of input using ctrl-D.  
+If the user simply wishes to benchmark the code, running "make test" is
+sufficient.
+
+The program works internally by primarily using two maps and a vector.  
+These are the two main data structures.  The map serves as the adjacency 
+list representing the graph.  Its keys are the chars of each path's 
+source.  The map's value is a vector of all the destinations associated 
+with each source.  The second structure, the main vector, is used to ease 
+the representation of output.  It is a vector of path structs, which holds 
+every single source/destination pairs representing a path.  The second map
+is used to hold whether a node has been visited or not.  Its keys are the
+chars of the node, and its values are booleans representing whether or not 
+it has been visited.
+
+In the main, a while loop is entered, so that input is constantly entered 
+until the end of input is reached.  The number of edges in the graph is 
+inputted right away.  For each edge, the source and destination is entered 
+as a key in the map and pushed onto the vector of destinations associated 
+with this key, respectively.  Additionally, the visitation map adds both 
+the source and destination as keys, with visitation values of false (not 
+visited), because the source and destination are two different nodes.  Next,
+the number of paths to be tested is inputted.  For each path to be tested, 
+the source and destination is inputted and turned into a path struct, which 
+is pushed onto the main data structure vector holding each pair to be tested.  
+A for loop is then run for each entry in the vector of paths to be tested.  
+Analysis on each source/destination pair is run using a function, which will 
+be explained later.  Depending on the output of the function, the pair is 
+then said to be an existing path or a nonexistant paht.  With the testing 
+on one graph over, the program loops back, to repeat the process on the 
+next input graph.
+
+The program has two main functions: make_path and pathfinder.  make_path 
+is simply used to create new path structs.  pathfinder is more 
+complicated.  It takes in the mapping of sources with its vector of 
+destinations, the source to be checked, the destination to be checked, and
+finally the map containing data on whether or not each node has been visited.  
+The source/destination pair was extracted from the vector of all 
+the pairs to be tested.  Within the function, first, the current node is 
+set as "visited."  Then, the map's keys are 
+searched to see if the source exists within it.  If so, the vector of 
+destinations associated with this source key is entered.  If a destination 
+in this vector matches the goal destination, a one is returned, saying 
+that the path exists.  If a destination does not exist, the function acts 
+recursively, running again with the current destination as the new source 
+and the goal destination remaining the goal destination.  It is important to 
+note that this only happens if the new source has not been visited yet.  This
+is to keep the function from getting trapped in a graph cycle.  If the function 
+fails to find a match, a zero is returned.
+ 
+The program was verified by running the program on the provided input 
+file and checking if it matches the provided output file.  This can be 
+executed through make test.  Additionally, different user-entered inputs 
+were tested for accuracy.
+
+I represented the graph by using an adjacency list.  This was done by 
+using a map, with the source as the keys, and a vector of destinations as 
+the key's value.  I implemented a depth-first traversal.  For 
+each source, it travels to the next deepest node, checking if it is the 
+node it is looking for.  If not, it uses recursion.
