@@ -1,0 +1,14 @@
+sqlplus -S eric/eric @customer.sql
+sqlldr eric/eric control=customer.ctl
+
+sqlplus -S eric/eric @manufacturer.sql
+sqlldr eric/eric control=manufacturer.ctl
+
+sqlplus -S eric/eric @product.sql
+sqlldr eric/eric control=product.ctl
+
+sqlplus -S eric/eric @salesperson.sql
+sqlldr eric/eric control=salesperson.ctl
+
+sqlplus -S eric/eric @sale.sql
+sqlldr eric/eric control=sale.ctl

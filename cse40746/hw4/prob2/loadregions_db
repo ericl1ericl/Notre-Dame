@@ -1,0 +1,8 @@
+sqlplus -S eric/eric @regions.sql
+sqlldr eric/eric control=regions.ctl
+
+sqlplus -S eric/eric @statesinfo.sql
+sqlldr eric/eric control=statesinfo.ctl
+
+sqlplus -S eric/eric @allzips.sql
+sqlldr eric/eric control=allzips.ctl
